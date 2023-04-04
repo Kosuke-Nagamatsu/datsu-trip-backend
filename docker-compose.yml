@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  web:
+    build: .
+    volumes:
+      - ./app:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/darts_trip_development
+    depends_on:
+      - db
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: darts_trip_development
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
