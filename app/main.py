@@ -41,8 +41,6 @@ def read_root():
 @app.get("/regions", response_model=List[schemas.Region])
 def read_regions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_regions = crud.get_regions(db, skip=skip, limit=limit)
-    if db_regions is None:
-        raise HTTPException(status_code=404, detail="Regions not found")
     return db_regions
 
 
